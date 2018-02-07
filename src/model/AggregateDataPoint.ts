@@ -1,4 +1,5 @@
-export interface IDataValuePoint {
-    date: Date;
-    value: number;
+export interface AggregateDataPoint {
+    min: number;
+    max: number;
+    avg: number;
 }

@@ -1,14 +1,9 @@
 import { ICompressionStrategy } from "./compressionStrategies/ICompressionStrategy";
 import { LinearSamplingStrategy } from "./compressionStrategies/LinearSamplingStrategy";
-
-
-// tslint:disable-next-line:interface-name
-export interface Options {
-    min: boolean;
-    max: boolean;
-    avg: boolean;
-    evenArray: boolean;
-}
+import {AggregateDataPoint} from "./model/AggregateDataPoint";
+import { BinningStrategy } from "./compressionStrategies/BinningStrategy";
+import { BinningOptions} from "./compressionStrategies/options/BinningOptions";
+import { LinearSamplingOptions} from "./compressionStrategies/options/LinearSamplingOptions";
 
 class DataHandler {
 
@@ -20,18 +15,20 @@ class DataHandler {
     }
 
     private static instance: DataHandler | null = null;
-    private compressionStrategy: ICompressionStrategy = new LinearSamplingStrategy();
 
     private constructor() {}
 
-    public setSamplingStrategy(strategy: ICompressionStrategy) {
-        this.compressionStrategy = strategy;
-    }
-
-    public sampleData(data: number[], points: number, opt?: Options): any[] {
+    public dataBinning(data: number[], points: number, opt?: BinningOptions): AggregateDataPoint[] {
         if (!opt) {
             opt = {min: true, max: true, avg: true, evenArray: true};
         }
-        return this.compressionStrategy.compress(data, points, opt);
+        return new BinningStrategy().compress(data, points, opt);
+    }
+
+    public linearSampling(data: number[], sampleSize: number,  opt?: LinearSamplingOptions): number[] {
+        if (!opt) {
+            opt = {evenArray: true};
+        }
+        return new LinearSamplingStrategy().compress(data, sampleSize, opt);
     }
 }
