@@ -1,4 +1,3 @@
-import { ICompressionStrategy } from "./compressionStrategies/ICompressionStrategy";
 import { LinearSamplingStrategy } from "./compressionStrategies/LinearSamplingStrategy";
 import {AggregateDataPoint} from "./model/AggregateDataPoint";
 import { BinningStrategy } from "./compressionStrategies/BinningStrategy";

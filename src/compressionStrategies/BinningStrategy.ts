@@ -1,10 +1,9 @@
 import { AggregateDataPoint } from "../model/AggregateDataPoint";
 import {ArrayUtil} from "../util/ArrayUtil";
 import {log} from "../util/Logger";
-import { ICompressionStrategy } from "./ICompressionStrategy";
 import { BinningOptions } from "./options/BinningOptions";
 
-export class BinningStrategy implements ICompressionStrategy {
+export class BinningStrategy {
     public compress(data: number[], points: number, opt: BinningOptions): AggregateDataPoint[] {
         log.debug("starting segmentation sampling");
         log.debug("Data length: " + data.length);
