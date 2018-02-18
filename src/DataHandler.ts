@@ -1,8 +1,8 @@
-import { LinearSamplingStrategy } from "./compressionStrategies/LinearSamplingStrategy";
-import {AggregateDataPoint} from "./model/AggregateDataPoint";
 import { BinningStrategy } from "./compressionStrategies/BinningStrategy";
+import { LinearSamplingStrategy } from "./compressionStrategies/LinearSamplingStrategy";
 import { BinningOptions} from "./compressionStrategies/options/BinningOptions";
 import { LinearSamplingOptions} from "./compressionStrategies/options/LinearSamplingOptions";
+import {AggregateDataPoint} from "./model/AggregateDataPoint";
 
 class DataHandler {
 
