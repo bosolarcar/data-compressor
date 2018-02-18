@@ -1,4 +1,4 @@
-import { Options } from "../DataHandler";
+import { BinningOptions } from "../compressionStrategies/options/BinningOptions";
 
 export class ArrayUtil {
 
@@ -22,7 +22,7 @@ export class ArrayUtil {
         return result;
     }
 
-    public static arrayStats(array: number[], opt: Options): {min?: number, max?: number, avg?: number} {
+    public static arrayStats(array: number[], opt: BinningOptions): {min?: number, max?: number, avg?: number} {
         let min: number = array[0];
         let max: number = array[0];
         let avg: number;

@@ -1,10 +1,9 @@
-import { Options } from "../DataHandler";
 import { ArrayUtil } from "../util/ArrayUtil";
-import { ICompressionStrategy } from "./ICompressionStrategy";
+import { LinearSamplingOptions } from "./options/LinearSamplingOptions";
 
-export class LinearSamplingStrategy implements ICompressionStrategy {
+export class LinearSamplingStrategy {
 
-    public compress(data: any[], points: number, opt: Options): any[] {
+    public compress(data: any[], points: number, opt: LinearSamplingOptions): any[] {
         const result: number[] = [];
 
         if (opt.evenArray) {
