@@ -11,6 +11,8 @@
     "types": [
       "jasmine"
     ],
+
+    "skipLibCheck": true,
   
   "noEmitOnError": true, //Kein kompilieren bei Fehlern
   "noImplicitAny": true, //Es wird nicht automatisch any gewählt, falls kein Typ angegeben ist
