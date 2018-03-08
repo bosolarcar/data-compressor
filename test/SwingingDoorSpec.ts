@@ -15,7 +15,7 @@ describe("SwingingDoor", () => {
         const result = strategy.compress(numbers, opt);
 
         // Assert
-        expect(result).toEqual([5, 6, 9, 1]);
+        expect(result).toEqual([5, 8]);
     });
 
 });

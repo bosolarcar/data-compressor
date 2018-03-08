@@ -10,73 +10,59 @@ export class SwingingDoorStrategy {
         let referenceIndex = 0;
         output.push(reference);
 
-        let lowerBound: number = data[1] - opt.maxDeviation;
-        let upperBound: number = data[1] + opt.maxDeviation;
+        log.debug("New snapshot value: " + data[1])
+        let lowerBound: number= data[1] - opt.maxDeviation;
+        let upperBound: number= data[1] + opt.maxDeviation;
 
-        //calculate minSlope
-        let slopeMin: number = (lowerBound - reference) / (1 - referenceIndex);
-        let bMin: number = referenceIndex / (slopeMin * reference);
-        //TODO validate with snapshot point
-        log.debug("calculated minimum slope: " + "y="  + slopeMin + "*x+" + bMin);
 
-        //calculate maxSlope
-        let slopeMax: number = (upperBound - reference) / (1 - referenceIndex);
-        let bMax: number = referenceIndex / (slopeMax * reference);
-        //TODO validate with snapshot point
-        log.debug("calculated maximum slope: " + "y="  + slopeMax + "*x+" + bMax);
+        let minSlope= (lowerBound - reference) / (1 - referenceIndex);
+        let minB= lowerBound - minSlope * 1;
+        log.debug("calculated minimum slope: " + "y="  + minSlope + "*x+" + minB);
+
+        let maxSlope= (upperBound - reference) / (1 - referenceIndex);
+        let maxB= upperBound - maxSlope * 1;
+        log.debug("calculated maximum slope: " + "y="  + maxSlope + "*x+" + maxB);
 
 
 
+        let x: number;
+        for (x = 2; x < data.length; x++) {
+            log.debug("Processing value at position " + x);
+            let snapshotX = x;
+            let snapshotY = data[x];
+            log.debug("New snapshot value: " + snapshotY)
 
-        let i: number;
+            let lowerY: number = minSlope * x + minB;
+            let upperY: number = maxSlope * x + maxB;
 
-        for (i = 2; i <= data.length; i++) {
-            log.debug("processing element " + i);
-            const element: number = data[i];
+            if (!(snapshotY >= lowerY && snapshotY <= upperY)) {
+                log.debug("value: " + snapshotY + " not in swinging door: " + lowerY + " - " + upperY);
+                output.push(data[x-1]);
+                log.debug("Pushed value: " + data[x-1]);
 
-            let upperY: number = slopeMax * i + bMax;
-            let lowerY: number = slopeMin * i + bMin;
+                reference = data[x-1];
+                log.debug("new reference value: " + data[x-1]);
+                referenceIndex = x-1;
 
-            //not in Swinging door
-            if (!(element > lowerY && element < upperY)) {
-                log.debug("value: " + element + " not in swinging door: " + lowerY + " - " + upperY);
-                output.push(element);
-
-
-
-            //calculate minSlope
-            slopeMin = (lowerBound - reference) / (i - referenceIndex);
-            bMin = referenceIndex / (slopeMin * reference);
-            //TODO validate with snapshot point
-            log.debug("calculated minimum slope: " + "y="  + slopeMin + "*x+" + bMin);
-
-            //calculate maxSlope
-            slopeMax = (upperBound - reference) / (i - referenceIndex);
-            bMax = referenceIndex / (slopeMax * reference);
-            //TODO validate with snapshot point
-            log.debug("calculated maximum slope: " + "y="  + slopeMax + "*x+" + bMax);
-
-
-                reference = element;
-                log.debug("new reference value: " + reference);
-                referenceIndex = i;
             }else{
-                log.debug("value: " + element + " in swinging door: " + lowerY + " - " + upperY);
+                log.debug("value: " + snapshotY + " in swinging door: " + lowerY + " - " + upperY);
 
-                            //calculate minSlope
-            slopeMin = (lowerBound - reference) / (i - referenceIndex);
-            bMin = referenceIndex / (slopeMin * reference);
-            //TODO validate with snapshot point
-            log.debug("calculated minimum slope: " + "y="  + slopeMin + "*x+" + bMin);
-
-            //calculate maxSlope
-            slopeMax = (upperBound - reference) / (i - referenceIndex);
-            bMax = referenceIndex / (slopeMax * reference);
-            //TODO validate with snapshot point
-            log.debug("calculated maximum slope: " + "y="  + slopeMax + "*x+" + bMax);
             }
 
-    }
+            lowerBound= snapshotY - opt.maxDeviation;
+            upperBound= snapshotY + opt.maxDeviation;
+
+            //TODO make sure that new slope is narrower than previous one
+            minSlope= (lowerBound - reference) / (snapshotX - referenceIndex);
+            minB= lowerBound - minSlope * snapshotX;
+            log.debug("calculated minimum slope: " + "y="  + minSlope + "*x+" + minB);
+
+            //TODO make sure that new slope is narrower than previous one
+            maxSlope= (upperBound - reference) / (snapshotX - referenceIndex);
+            maxB= upperBound - maxSlope * snapshotX;
+            log.debug("calculated maximum slope: " + "y="  + maxSlope + "*x+" + maxB);
+        }
+
         return output;
     }
 
