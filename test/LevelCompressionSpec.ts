@@ -6,7 +6,7 @@ describe("LevelCompression", () => {
 
                // Arrange
                const strategy = new LevelCompression();
-               const numbers: number[] = [1, 3, 9, 5, 7];
+               const numbers: number[] = [1, 3, 9, 5, 7, 3, 5, 6, 8];
 
                // Act
                strategy.compress(Rx.Observable.from(numbers), 3);

@@ -6,26 +6,35 @@ export class LevelCompression {
 
 //public compress(data: Rx.Observable<number>, factor: number): Rx.Observable<Rx.Observable<number>> {
 public compress(data: Rx.Observable<number>, factor: number): void {
-    //TODO make dynamical
-    let bin1: number[] = [];
-    let bin2: number[] = [];
+    let bins: number[][] = [];
+    let binNumber: number = 0;
+    bins[0] = [];
+    log.debug("initialized bin: 0");
 
     let subscription : Rx.Subscription = data.subscribe((value) => {
-        bin1.push(value);
-        log.debug("pushed " + value + " to bin1");
-        //TODO check recursively
-        if (bin1.length === factor) {
-            let avg: number = ArrayUtil.arrayStats(bin1, {avg: true, min: false, max: false, evenArray: false}).avg;
-            bin2.push(avg);
-            bin1 = [];
-            log.debug("emptied bin1");
-            log.debug("pushed " + avg + " to bin2");
+
+        let currentBin: number = 0;
+
+        bins[currentBin].push(value);
+        log.debug("pushed " + value + " to bin: " + currentBin);
+
+        while (bins[currentBin].length === factor) {
+            let avg: number = ArrayUtil.arrayStats(bins[currentBin], {avg: true, min: false, max: false, evenArray: false}).avg;
+            bins[currentBin] = [];
+            log.debug("Emptied bin: " + currentBin + " and got avg: " + avg);
+            currentBin++;
+            if (bins[currentBin] === undefined) {
+                bins[currentBin] = [];
+                log.debug("initialized bin: " + currentBin);
+            }
+            bins[currentBin].push(avg);
+            log.debug("pushed " + avg + " to bin: " + currentBin);
         }
-    });
 
     //TODO return observables backed by bins
    //let  subject: Rx.Subject = new Rx.BehaviorSubject<Rx.Observable>();
 
+    });
 }
 
 }
