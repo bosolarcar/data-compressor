@@ -1,3 +1,4 @@
+import * as Rx from "rxjs/Rx";
 import { ArrayUtil } from "../util/ArrayUtil";
 import { LinearSamplingOptions } from "./options/LinearSamplingOptions";
 
@@ -22,4 +23,7 @@ export class LinearSamplingStrategy {
         return result;
     }
 
+    public compressObservable(data: Rx.Observable<any>, samplingRate: number): Rx.Observable<any> {
+            return data.bufferCount(samplingRate).map((arr) => arr[arr.length - 1]);
+}
 }
