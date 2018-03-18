@@ -33,7 +33,7 @@ export class DeadBandCompressionStrategy {
             const previous: DateValuePoint = data[num - 1];
             const element: DateValuePoint = data[num];
             if (Math.absoluteDelta(element.value, reference) > opt.deadBand) {
-                if (opt.sendPrevious) {
+                if (opt.sendPrevious && output[output.length - 1] !== previous) {
                     output.push(previous);
                 }
                 output.push(element);
