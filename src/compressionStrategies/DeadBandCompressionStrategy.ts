@@ -29,7 +29,7 @@ export class DeadBandCompressionStrategy {
 
         let reference: number = data[0].value;
         let num: number;
-        for (num = 1; num <= data.length; num++) {
+        for (num = 1; num < data.length; num++) {
             const previous: DateValuePoint = data[num - 1];
             const element: DateValuePoint = data[num];
             if (Math.absoluteDelta(element.value, reference) > opt.deadBand) {
