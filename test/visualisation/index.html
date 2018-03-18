@@ -48,7 +48,7 @@ var yAxis = d3.svg.axis().scale(y)
 // Define the line
 var valueline = d3.svg.line()
     .x(function(d) { return x(d.date); })
-    .y(function(d) { return y(d.close); });
+    .y(function(d) { return y(d.value); });
 
 // Adds the svg canvas
 var svg = d3.select("body")
@@ -61,19 +61,15 @@ var svg = d3.select("body")
 
 
 // Get the data
-    d3.json("data.json", function(error, data) {
-        
-
-        data.forEach(function(d, i) {
-            var obj = {}
-            obj.date = d3.time.format.iso.parse(d[0]);
-            obj.close = +d[1];
-            data[i] = obj
+        d3.json("temperatur.json", function(error, data) {
+            
+        data.forEach(function(d) {
+            d.date = d3.time.format.iso.parse(d.date);
         });
 
     // Scale the range of the data
     x.domain(d3.extent(data, function(d) { return d.date; }));
-    y.domain([0, d3.max(data, function(d) { return d.close; })]);
+    y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
     // Add the valueline path.
     svg.append("path")
