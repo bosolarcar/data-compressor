@@ -29,13 +29,26 @@ describe("SwingingDoor", () => {
 
         const opt: SwingingDoorOptions = {maxDeviation: 2, interval: 5};
 
-        console.log(typeof (expected[0].date));
-
         // Act
         const actual = strategy.compressWithDate(numbers, opt);
 
         // Assert
         expect(actual).toEqual(expected);
+    });
+
+    it("Swingingdoor without datevaluepoints", () => {
+
+        // Arrange
+        const strategy = new SwingingDoorStrategy();
+        const numbers: number[] = [-10, 5, 6, 4, 11, 9, 10, 8, 6, 7];
+
+        const opt: SwingingDoorOptions = {maxDeviation: 2, interval: 5};
+
+        // Act
+        const result = strategy.compress(numbers, opt);
+
+        // Assert
+        expect(result).toEqual([-10, 5, 4, 11]);
     });
 
 });
