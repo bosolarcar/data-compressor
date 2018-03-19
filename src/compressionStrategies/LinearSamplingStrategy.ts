@@ -4,6 +4,7 @@ import { LinearSamplingOptions } from "./options/LinearSamplingOptions";
 
 export class LinearSamplingStrategy {
 
+    //TODO add option to define samplingrate
     public compress(data: any[], points: number, opt: LinearSamplingOptions): any[] {
         const result: number[] = [];
 
