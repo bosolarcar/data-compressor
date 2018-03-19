@@ -9,9 +9,9 @@ describe("LevelCompression", () => {
                const numbers: number[] = [1, 3, 9, 5, 7, 3, 5, 6, 8];
 
                // Act
-               let result: number[][] = strategy.compress(numbers, 3);
+               const result: number[][] = strategy.compress(numbers, 3);
 
                // Assert
-               expect(result).toEqual([numbers, [4.3, 5, 6.3], [5.2]]);
+               expect(result).toEqual([numbers, [4.333333333333333, 5, 6.333333333333333], [5.222222222222221]]);
            });
    });
