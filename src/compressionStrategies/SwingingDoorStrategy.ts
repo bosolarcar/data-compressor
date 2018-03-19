@@ -1,3 +1,4 @@
+import { DateValuePoint } from "../model/DateValuePoint";
 import { LinearFunction } from "../model/LinearFunction";
 import { Point } from "../model/Point";
 import {log} from "../util/Logger";
@@ -44,6 +45,53 @@ export class SwingingDoorStrategy {
             }
             minDoor = this.calculateMinDoor(snapshot, reference, opt.maxDeviation);
             maxDoor = this.calculateMaxDoor(snapshot, reference, opt.maxDeviation);
+           }
+
+        return output;
+    }
+
+    public compressWithDate(data: DateValuePoint[], opt: SwingingDoorOptions): DateValuePoint[] {
+        const output: DateValuePoint[] = [];
+        let minDoor: LinearFunction;
+        let maxDoor: LinearFunction;
+
+        let reference: DateValuePoint = data[0];
+        let refPoint: Point = new Point(reference.date.getTime(), reference.value);
+        log.debug("new reference point: " + refPoint);
+        output.push(reference);
+
+        let snapshot: DateValuePoint = data[1];
+        let snapPoint: Point = new Point(snapshot.date.getTime(), snapshot.value);
+
+        log.debug("New snapshot point: " + snapPoint);
+
+        minDoor = this.calculateMinDoor(snapPoint, refPoint, opt.maxDeviation);
+        maxDoor = this.calculateMaxDoor(snapPoint, refPoint, opt.maxDeviation);
+
+        let i: number;
+        for (i = 2; i < data.length; i++) {
+            log.debug("Processing value at position " + i);
+            snapshot = data[i];
+            snapPoint = new Point(snapshot.date.getTime(), snapshot.value);
+            log.debug("New snapshot value: " + snapPoint);
+
+            const lowerY: number = minDoor.calculateY(snapPoint.x);
+            const upperY: number = maxDoor.calculateY(snapPoint.x);
+
+            if (!(snapshot.value >= lowerY && snapshot.value <= upperY)) {
+                log.debug("value: " + snapshot.value + " not in swinging door: " + lowerY + " - " + upperY);
+                reference = data[i - 1];
+                refPoint = new Point(reference.date.getTime(), reference.value);
+                output.push(reference);
+                log.debug("Pushed value: " + reference);
+                log.debug("new reference value: " + refPoint);
+
+            } else {
+                log.debug("value: " + snapshot.value + " in swinging door: " + lowerY + " - " + upperY);
+
+            }
+            minDoor = this.calculateMinDoor(snapPoint, refPoint, opt.maxDeviation);
+            maxDoor = this.calculateMaxDoor(snapPoint, refPoint, opt.maxDeviation);
            }
 
         return output;

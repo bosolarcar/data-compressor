@@ -1,5 +1,6 @@
-import { SwingingDoorStrategy } from "../src/compressionStrategies/SwingingDoorStrategy";
 import { SwingingDoorOptions } from "../src/compressionStrategies/options/SwingingDoorOptions";
+import { SwingingDoorStrategy } from "../src/compressionStrategies/SwingingDoorStrategy";
+import { TestDataLoader } from "./visualisation/TestDataUtil";
 
 describe("SwingingDoor", () => {
 
@@ -16,6 +17,25 @@ describe("SwingingDoor", () => {
 
         // Assert
         expect(result).toEqual([5, 8]);
+    });
+
+    it("Swingingdoor with datevaluepoints", () => {
+
+        // Arrange
+        const strategy = new SwingingDoorStrategy();
+        const loader: TestDataLoader = new TestDataLoader();
+        const numbers = loader.load("temperatur.json");
+        const expected = loader.load("swingingDoor.json");
+
+        const opt: SwingingDoorOptions = {maxDeviation: 2, interval: 5};
+
+        console.log(typeof (expected[0].date));
+
+        // Act
+        const actual = strategy.compressWithDate(numbers, opt);
+
+        // Assert
+        expect(actual).toEqual(expected);
     });
 
 });
