@@ -17,7 +17,7 @@ class DataHandler {
 
     private constructor() {}
 
-    public dataBinning(data: number[], points: number, opt?: BinningOptions): AggregateDataPoint[] {
+    public dataBinning(data: number[], points: number, opt?: BinningOptions): number[] {
         if (!opt) {
             opt = {min: true, max: true, avg: true, evenArray: true};
         }
