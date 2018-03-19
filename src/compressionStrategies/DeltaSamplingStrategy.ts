@@ -13,7 +13,7 @@ export class DeltaSamplingStrategy {
         const output: number[] = [data[0]];
 
         let num: number;
-        for (num = 1; num <= data.length; num++) {
+        for (num = 1; num < data.length; num++) {
             const previous: number = data[num - 1];
             const element: number = data[num];
             if (Math.absoluteDelta(element, previous) > delta){
@@ -32,7 +32,7 @@ public compressWithDate(data: DateValuePoint[], delta: number): DateValuePoint[]
     const output: DateValuePoint[] = [data[0]];
 
     let num: number;
-    for (num = 1; num <= data.length; num++) {
+    for (num = 1; num < data.length; num++) {
         const previous: DateValuePoint = data[num - 1];
         const element: DateValuePoint = data[num];
         if (Math.absoluteDelta(element.value, previous.value) > delta) {
