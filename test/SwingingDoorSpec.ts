@@ -16,7 +16,7 @@ describe("SwingingDoor", () => {
         const result = strategy.compress(numbers, opt);
 
         // Assert
-        expect(result).toEqual([5, 8]);
+        expect(result).toEqual([5, 6, 8]);
     });
 
     it("Swingingdoor with datevaluepoints", () => {
