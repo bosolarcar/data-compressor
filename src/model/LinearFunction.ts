@@ -27,7 +27,7 @@ export class LinearFunction {
 
     public toString = (): string => {
 
-        return `y=${this._slope}*x+${this._yIntercept}`;
+        return `y= ${this._slope}*x + ${this._yIntercept}`;
     }
 
 }

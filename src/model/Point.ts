@@ -18,4 +18,9 @@ export class Point {
         this._y = y;
     }
 
+    public toString = (): string => {
+
+        return `(${this._x}/${this._y})`;
+    }
+
 }
