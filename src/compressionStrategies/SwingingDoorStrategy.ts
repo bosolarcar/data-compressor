@@ -1,66 +1,59 @@
+import { LinearFunction } from "../model/LinearFunction";
+import { Point } from "../model/Point";
 import {log} from "../util/Logger";
 import { SwingingDoorOptions } from "./options/SwingingDoorOptions";
 
 export class SwingingDoorStrategy {
 
     public compress(data: number[], opt: SwingingDoorOptions): number[] {
-        let output: number[] = [];
-        let reference: number = data[0];
+        const output: number[] = [];
+        const reference: Point = new Point(0, data[0]);
         log.debug("new reference value: " + reference);
-        let referenceIndex = 0;
-        output.push(reference);
+        output.push(reference.y);
 
-        log.debug("New snapshot value: " + data[1])
-        let lowerBound: number= data[1] - opt.maxDeviation;
-        let upperBound: number= data[1] + opt.maxDeviation;
+        log.debug("New snapshot value: " + data[1]);
+        let lowerBound: number = data[1] - opt.maxDeviation;
+        let upperBound: number = data[1] + opt.maxDeviation;
 
+        let minDoor: LinearFunction = new LinearFunction(reference, new Point(1, lowerBound));
+        log.debug("calculated minimum door: " + minDoor);
 
-        let minSlope= (lowerBound - reference) / (1 - referenceIndex);
-        let minB= lowerBound - minSlope * 1;
-        log.debug("calculated minimum slope: " + "y="  + minSlope + "*x+" + minB);
-
-        let maxSlope= (upperBound - reference) / (1 - referenceIndex);
-        let maxB= upperBound - maxSlope * 1;
-        log.debug("calculated maximum slope: " + "y="  + maxSlope + "*x+" + maxB);
-
-
+        let maxDoor: LinearFunction = new LinearFunction(reference, new Point(1, upperBound));
+        log.debug("calculated maximum door: " + maxDoor);
 
         let x: number;
         for (x = 2; x < data.length; x++) {
             log.debug("Processing value at position " + x);
-            let snapshotX = x;
-            let snapshotY = data[x];
-            log.debug("New snapshot value: " + snapshotY)
+            const snapshot: Point = new Point(x, data[x]);
+            log.debug("New snapshot value: " + snapshot.y)
 
-            let lowerY: number = minSlope * x + minB;
-            let upperY: number = maxSlope * x + maxB;
+            const lowerY: number = minDoor.calculateY(x);
+            const upperY: number = maxDoor.calculateY(x);
 
-            if (!(snapshotY >= lowerY && snapshotY <= upperY)) {
-                log.debug("value: " + snapshotY + " not in swinging door: " + lowerY + " - " + upperY);
-                output.push(data[x-1]);
-                log.debug("Pushed value: " + data[x-1]);
+            if (!(snapshot.y >= lowerY && snapshot.y <= upperY)) {
+                log.debug("value: " + snapshot.y + " not in swinging door: " + lowerY + " - " + upperY);
+                output.push(data[x - 1]);
+                log.debug("Pushed value: " + data[x - 1]);
 
-                reference = data[x-1];
-                log.debug("new reference value: " + data[x-1]);
-                referenceIndex = x-1;
+                reference.y = data[x - 1];
+                log.debug("new reference value: " + data[x - 1]);
+                reference.x = x - 1;
 
-            }else{
-                log.debug("value: " + snapshotY + " in swinging door: " + lowerY + " - " + upperY);
+            } else {
+                log.debug("value: " + snapshot.y + " in swinging door: " + lowerY + " - " + upperY);
 
             }
 
-            lowerBound= snapshotY - opt.maxDeviation;
-            upperBound= snapshotY + opt.maxDeviation;
+            lowerBound = snapshot.y - opt.maxDeviation;
+            upperBound = snapshot.y + opt.maxDeviation;
 
             //TODO make sure that new slope is narrower than previous one
-            minSlope= (lowerBound - reference) / (snapshotX - referenceIndex);
-            minB= lowerBound - minSlope * snapshotX;
-            log.debug("calculated minimum slope: " + "y="  + minSlope + "*x+" + minB);
+            minDoor = new LinearFunction(reference, new Point(snapshot.x, lowerBound));
+            log.debug("calculated minimum door: " + minDoor);
 
             //TODO make sure that new slope is narrower than previous one
-            maxSlope= (upperBound - reference) / (snapshotX - referenceIndex);
-            maxB= upperBound - maxSlope * snapshotX;
-            log.debug("calculated maximum slope: " + "y="  + maxSlope + "*x+" + maxB);
+            maxDoor = new LinearFunction(reference, new Point(snapshot.x, upperBound));
+            log.debug("calculated maximum door: " + maxDoor);
         }
 
         return output;
