@@ -61,7 +61,7 @@ var svg = d3.select("body")
 
 
 // Get the data
-        d3.json("temperatur.json", function(error, data) {
+        d3.json("swingingDoor.json", function(error, data) {
             
         data.forEach(function(d) {
             d.date = d3.time.format.iso.parse(d.date);
