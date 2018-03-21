@@ -9,12 +9,8 @@ compile source and test:
    - npm install
    - npm install -g typescript
    - tsc -p tsconfig.json
-   - node ./dist/test/BinningCompression.spect.js
-   - node ./dist/test/DeadBandCompression.js
-   - node ./dist/test/DeltaSamplingSpec.js
-   - node ./dist/test/LevelCompressionSpect.js
-   - node ./dist/test/SimpleSamplingStrategySpec.js
-   - node ./dist/test/SwingingDoorSpec.js
+   - node ./dist/test/BinningCompression.spec.js
+
 
 
 
