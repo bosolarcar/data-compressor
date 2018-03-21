@@ -16,12 +16,12 @@ describe("RDP", () => {
                expect(result).toEqual([0, -0.1, 5, 9, 9]);
            });
 
-           it("sample datavaluepoints with epsilon 1", () => {
+           it("sample datavaluepoints with epsilon 3", () => {
 
             // Arrange
             const strategy = new RamerDouglasPeuckerStrategy();
             const loader: TestDataLoader = new TestDataLoader();
-            const data = loader.load("ramerDouglasPeucker.json");
+            const data = loader.load("temperatur.json");
 
             // Act
             const actual = strategy.compressWithDate(data, 3);
