@@ -1,0 +1,17 @@
+image: node:7.10.0
+
+cache:
+  paths:
+  - node_modules/
+
+compile source and test:
+  script:
+   - npm install
+   - npm install -g typescript
+   - tsc -p tsconfig.json
+   - node ./dist/test/BinningCompression.spec.js
+
+
+
+
+ 
