@@ -1,10 +1,12 @@
 import { Point } from "./Point";
+import { log } from "../util/Logger";
 
 export class LinearFunction {
     private _slope: number = 1;
     private _yIntercept: number = 0;
 
     constructor(p1: Point, p2: Point) {
+        log.debug("calculationg from points: " + p1 + ", " + p2);
         this.fromPoints(p1.x, p1.y, p2.x, p2.y);
     }
 
