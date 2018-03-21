@@ -1,8 +1,9 @@
 import { BinningOptions } from "../compressionStrategies/options/BinningOptions";
+import { DateValuePoint } from "../model/DateValuePoint";
 
 export class ArrayUtil {
 
-    public static evenChunks(data: number[], points: number) {
+    public static evenChunks(data: any[], points: number) {
         let rest: number = data.length % points;
         while (rest !== 0) {
             if (rest % 2 === 0) {
@@ -43,6 +44,27 @@ export class ArrayUtil {
         });
         avg = sum / array.length;
         return {min, max, avg};
+    }
+
+    public static average(array: number[]): number {
+        let avg: number = 0;
+        array.forEach((element) => {
+                    avg += element;
+        });
+        avg /= array.length;
+        return avg;
+    }
+
+    public static averageDateValuePoint(array: DateValuePoint[]): DateValuePoint {
+        let value: number = 0;
+        const date: Date = array[Math.floor(array.length / 2)].date;
+
+        array.forEach((element) => {
+            value += element.value;
+        });
+
+        value /= array.length;
+        return {date, value};
     }
 
 }

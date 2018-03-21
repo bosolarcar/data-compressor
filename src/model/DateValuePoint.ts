@@ -1,4 +1,4 @@
-export interface IDataValuePoint {
+export interface DateValuePoint {
     date: Date;
     value: number;
 }

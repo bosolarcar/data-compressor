@@ -1,8 +1,10 @@
+import * as Rx from "rxjs/Rx";
 import { ArrayUtil } from "../util/ArrayUtil";
 import { LinearSamplingOptions } from "./options/LinearSamplingOptions";
 
 export class LinearSamplingStrategy {
 
+    //TODO add option to define samplingrate
     public compress(data: any[], points: number, opt: LinearSamplingOptions): any[] {
         const result: number[] = [];
 
@@ -22,4 +24,7 @@ export class LinearSamplingStrategy {
         return result;
     }
 
+    public compressObservable(data: Rx.Observable<any>, samplingRate: number): Rx.Observable<any> {
+            return data.bufferCount(samplingRate).map((arr) => arr[arr.length - 1]);
+}
 }
