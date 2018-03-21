@@ -18,15 +18,15 @@ compile source:
     script:
     - node ./dist/test/DeadBandCompression.js
 
- test deltasampling
+ test deltasampling:
     - node ./dist/test/DeltaSamplingSpec.js
 
- test levelcopression
+ test levelcopression:
     - node ./dist/test/LevelCompressionSpect.js
 
- test simplesamplingstrategy
+ test simplesamplingstrategy:
     - node ./dist/test/SimpleSamplingStrategySpec.js
 
- test swingingdoor
+ test swingingdoor:
     - node ./dist/test/SwingingDoorSpec.js
 
