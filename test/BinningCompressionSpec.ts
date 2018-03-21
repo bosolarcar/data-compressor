@@ -1,8 +1,7 @@
 import { BinningStrategy } from "../src/compressionStrategies/BinningStrategy";
 import { BinningOptions } from "../src/compressionStrategies/options/BinningOptions";
 import { DateValuePoint } from "../src/model/DateValuePoint";
-import { TestDataLoader } from "./visualisation/TestDataUtil";
-
+import { TestDataLoader } from "./util/TestDataUtil";
 describe("Binninng", () => {
 
            it("binning with numbers", () => {

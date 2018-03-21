@@ -1,6 +1,6 @@
 import { LinearSamplingStrategy } from "../src/compressionStrategies/LinearSamplingStrategy";
 import { LinearSamplingOptions } from "../src/compressionStrategies/options/LinearSamplingOptions";
-import { TestDataLoader } from "./visualisation/TestDataUtil";
+import { TestDataLoader } from "./util/TestDataUtil";
 
 describe("Linearsampling", () => {
            it("sampling values", () => {

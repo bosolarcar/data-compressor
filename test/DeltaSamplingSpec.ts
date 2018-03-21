@@ -1,5 +1,5 @@
 import { DeltaSamplingStrategy } from "../src/compressionStrategies/DeltaSamplingStrategy";
-import { TestDataLoader } from "./visualisation/TestDataUtil";
+import { TestDataLoader } from "./util/TestDataUtil";
 
 describe("DeltaSampling", () => {
 

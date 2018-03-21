@@ -1,6 +1,6 @@
 import { SwingingDoorOptions } from "../src/compressionStrategies/options/SwingingDoorOptions";
 import { SwingingDoorStrategy } from "../src/compressionStrategies/SwingingDoorStrategy";
-import { TestDataLoader } from "./visualisation/TestDataUtil";
+import { TestDataLoader } from "./util/TestDataUtil";
 
 describe("SwingingDoor", () => {
 

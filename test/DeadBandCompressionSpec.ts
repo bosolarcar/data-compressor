@@ -1,7 +1,7 @@
 import { DeadBandCompressionStrategy } from "../src/compressionStrategies/DeadBandCompressionStrategy";
 import { DeadBandOptions } from "../src/compressionStrategies/options/DeadBandOptions";
 import { DateValuePoint } from "../src/model/DateValuePoint";
-import { TestDataLoader } from "./visualisation/TestDataUtil";
+import { TestDataLoader } from "./util/TestDataUtil";
 
 describe("DeadbandSampling", () => {
 

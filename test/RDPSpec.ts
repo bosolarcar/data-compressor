@@ -1,5 +1,5 @@
-import { TestDataLoader } from "./visualisation/TestDataUtil";
 import { RamerDouglasPeuckerStrategy } from "../src/compressionStrategies/RamerDouglasPeuckerStrategy";
+import { TestDataLoader } from "./util/TestDataUtil";
 
 describe("RDP", () => {
 
