@@ -1,0 +1,32 @@
+image: node:7.10.0
+
+cache:
+  paths:
+  - node_modules/
+
+compile source:
+  script:
+   - npm install
+   - npm install -g typescript
+   - tsc -p tsconfig.json
+ 
+ test_binningcompression:
+    script:
+    - node ./dist/test/BinningCompression.spect.js
+
+ test_deadbandcompression:
+    script:
+    - node ./dist/test/DeadBandCompression.js
+
+ test deltasampling
+    - node ./dist/test/DeltaSamplingSpec.js
+
+ test levelcopression
+    - node ./dist/test/LevelCompressionSpect.js
+
+ test simplesamplingstrategy
+    - node ./dist/test/SimpleSamplingStrategySpec.js
+
+ test swingingdoor
+    - node ./dist/test/SwingingDoorSpec.js
+
