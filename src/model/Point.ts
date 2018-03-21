@@ -1,4 +1,10 @@
+import { DateValuePoint } from "./DateValuePoint";
+
 export class Point {
+
+    public static fromDateValuePoint(dvp: DateValuePoint): Point{
+        return new Point(dvp.date.getTime(), dvp.value);
+    }
 
     constructor(private _x: number, private _y: number) {}
 
@@ -17,6 +23,8 @@ export class Point {
     set y(y: number) {
         this._y = y;
     }
+
+
 
     public toString = (): string => {
 

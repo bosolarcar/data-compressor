@@ -1,10 +1,11 @@
 import { LinearFunction } from "../model/LinearFunction";
 import { Point } from "../model/Point";
 import { log } from "../util/Logger";
+import { DateValuePoint } from "../model/DateValuePoint";
 
-export class RamerDouglasPeuckerStrategy{
+export class RamerDouglasPeuckerStrategy {
 
-public compress(data: number[], epsilon: number): number[]{
+public compress(data: number[], epsilon: number): number[] {
     let output: number[] = [];
 
     // Find the point with the maximum distance
@@ -34,7 +35,47 @@ public compress(data: number[], epsilon: number): number[]{
         output = recResults1.slice(0, recResults1.length - 1);
         output = output.concat(recResults2);
     } else {
-        //return start and end point
+        // return start and end point
+        log.debug("dmax < epsilon");
+        output = [data[0], data[end]];
+    }
+    // Return the result
+    log.debug("returned output: " + output);
+    return output;
+
+}
+
+public compressWithDate(data: DateValuePoint[], epsilon: number): DateValuePoint[] {
+    let output: DateValuePoint[] = [];
+
+    // Find the point with the maximum distance
+    let dmax: number = 0;
+    let index: number = 0;
+    const end: number = data.length - 1;
+    let i: number;
+    for (i = 1; i < end; ++i) {
+        const d: number = this.perpendicularDistance(Point.fromDateValuePoint(data[i]), Point.fromDateValuePoint(data[0]), Point.fromDateValuePoint(data[end]));
+        log.debug("Calculated distance from: (" + i + "/" + data[i] + ") = " + d);
+        if ( d > dmax ) {
+            index = i;
+            dmax = d;
+        }
+    }
+    log.debug("point with max distance is: (" + index + "/" + data[index] + ") = " + dmax);
+
+    if ( dmax > epsilon ) {
+        log.debug("dmax > epsilon");
+        // Recursive call
+        const recResults1: DateValuePoint[] = this.compressWithDate(data.slice(0, index + 1), epsilon);
+        const recResults2: DateValuePoint[] = this.compressWithDate(data.slice(index, data.length), epsilon);
+        log.debug("recResults1: " + recResults1);
+        log.debug("recResults2: " + recResults2);
+
+        // Build the result list
+        output = recResults1.slice(0, recResults1.length - 1);
+        output = output.concat(recResults2);
+    } else {
+        // return start and end point
         log.debug("dmax < epsilon");
         output = [data[0], data[end]];
     }
