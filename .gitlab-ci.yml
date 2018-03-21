@@ -4,14 +4,18 @@ cache:
   paths:
   - node_modules/
 
-compile source:
+compile source and test:
   script:
    - npm install
    - npm install -g typescript
    - tsc -p tsconfig.json
- 
-test_binningcompression:
-   script:
-    - node ./dist/test/BinningCompression.spect.js
+   - node ./dist/test/BinningCompression.spect.js
+   - node ./dist/test/DeadBandCompression.js
+   - node ./dist/test/DeltaSamplingSpec.js
+   - node ./dist/test/LevelCompressionSpect.js
+   - node ./dist/test/SimpleSamplingStrategySpec.js
+   - node ./dist/test/SwingingDoorSpec.js
+
+
 
  
