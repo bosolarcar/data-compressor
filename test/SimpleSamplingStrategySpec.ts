@@ -26,7 +26,7 @@ describe("Linearsampling", () => {
             const opt: LinearSamplingOptions = {evenArray: false};
 
             // Act
-            const actual = strategy.compress(data, 3, opt);
+            const actual = strategy.compress(data, 4, opt);
             const expected = loader.load("linearSampling.json");
 
             // Assert

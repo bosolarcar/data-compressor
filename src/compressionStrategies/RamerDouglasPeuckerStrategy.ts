@@ -55,13 +55,13 @@ public compressWithDate(data: DateValuePoint[], epsilon: number): DateValuePoint
     let i: number;
     for (i = 1; i < end; ++i) {
         const d: number = this.perpendicularDistance(Point.fromDateValuePoint(data[i]), Point.fromDateValuePoint(data[0]), Point.fromDateValuePoint(data[end]));
-        log.debug("Calculated distance from: (" + i + "/" + data[i] + ") = " + d);
+        log.debug("Calculated distance from: (" + i + "/" + data[i].value + ") = " + d);
         if ( d > dmax ) {
             index = i;
             dmax = d;
         }
     }
-    log.debug("point with max distance is: (" + index + "/" + data[index] + ") = " + dmax);
+    log.debug("point with max distance is: (" + index + "/" + data[index].value + ") = " + dmax);
 
     if ( dmax > epsilon ) {
         log.debug("dmax > epsilon");
