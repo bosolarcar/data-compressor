@@ -18,8 +18,8 @@ export class SwingingDoorStrategy {
         let snapshot: Point = new Point(1, data[1]);
         log.debug("New snapshot value: " + data[1]);
 
-        minDoor = this.calculateMinDoor(snapshot, reference, opt.maxDeviation, Number.MIN_VALUE);
-        maxDoor = this.calculateMaxDoor(snapshot, reference, opt.maxDeviation, Number.MAX_VALUE);
+        minDoor = this.calculateMinDoor(snapshot, reference, opt.maxDeviation, Number.MIN_SAFE_INTEGER);
+        maxDoor = this.calculateMaxDoor(snapshot, reference, opt.maxDeviation, Number.MAX_SAFE_INTEGER);
 
         let x: number;
         for (x = 2; x < data.length; x++) {
@@ -39,8 +39,8 @@ export class SwingingDoorStrategy {
                 reference.y = data[x - 1];
                 log.debug("new reference value: " + reference);
 
-                minDoor = this.calculateMinDoor(snapshot, reference, opt.maxDeviation, Number.MIN_VALUE);
-                maxDoor = this.calculateMaxDoor(snapshot, reference, opt.maxDeviation, Number.MAX_VALUE);
+                minDoor = this.calculateMinDoor(snapshot, reference, opt.maxDeviation, Number.MIN_SAFE_INTEGER);
+                maxDoor = this.calculateMaxDoor(snapshot, reference, opt.maxDeviation, Number.MAX_SAFE_INTEGER);
 
             } else {
                 log.debug("value: " + snapshot.y + " in swinging door: " + lowerY + " - " + upperY);
@@ -69,8 +69,8 @@ export class SwingingDoorStrategy {
 
         log.debug("New snapshot point: " + snapPoint);
 
-        minDoor = this.calculateMinDoor(snapPoint, refPoint, opt.maxDeviation, Number.MIN_VALUE);
-        maxDoor = this.calculateMaxDoor(snapPoint, refPoint, opt.maxDeviation, Number.MAX_VALUE);
+        minDoor = this.calculateMinDoor(snapPoint, refPoint, opt.maxDeviation, Number.MIN_SAFE_INTEGER);
+        maxDoor = this.calculateMaxDoor(snapPoint, refPoint, opt.maxDeviation, Number.MAX_SAFE_INTEGER);
 
         let i: number;
         for (i = 2; i < data.length; i++) {
@@ -90,8 +90,8 @@ export class SwingingDoorStrategy {
                 log.debug("Pushed value: " + reference);
                 log.debug("new reference value: " + refPoint);
 
-                minDoor = this.calculateMinDoor(snapPoint, refPoint, opt.maxDeviation, Number.MIN_VALUE);
-                maxDoor = this.calculateMaxDoor(snapPoint, refPoint, opt.maxDeviation, Number.MAX_VALUE);
+                minDoor = this.calculateMinDoor(snapPoint, refPoint, opt.maxDeviation, Number.MIN_SAFE_INTEGER);
+                maxDoor = this.calculateMaxDoor(snapPoint, refPoint, opt.maxDeviation, Number.MAX_SAFE_INTEGER);
 
             } else {
                 log.debug("value: " + snapshot.value + " in swinging door: " + lowerY + " - " + upperY);
