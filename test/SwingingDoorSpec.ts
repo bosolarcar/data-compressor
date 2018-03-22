@@ -40,15 +40,15 @@ describe("SwingingDoor", () => {
 
         // Arrange
         const strategy = new SwingingDoorStrategy();
-        const numbers: number[] = [-10, 5, 6, 4, 11, 9, 10, 8, 6, 7];
+        const numbers: number[] = [3, 5, 6, 4, 7, 9, 10, 8, 2, 3];
 
-        const opt: SwingingDoorOptions = {maxDeviation: 2, interval: 5};
+        const opt: SwingingDoorOptions = {maxDeviation: 1, interval: 5};
 
         // Act
         const result = strategy.compress(numbers, opt);
 
         // Assert
-        expect(result).toEqual([-10, 5, 4, 11]);
+        expect(result).toEqual([3, 6, 4, 10, 8, 2]);
     });
 
 });

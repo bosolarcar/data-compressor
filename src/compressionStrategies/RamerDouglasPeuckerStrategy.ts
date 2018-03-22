@@ -55,21 +55,21 @@ public compressWithDate(data: DateValuePoint[], epsilon: number): DateValuePoint
     let i: number;
     for (i = 1; i < end; ++i) {
         const d: number = this.perpendicularDistance(Point.fromDateValuePoint(data[i]), Point.fromDateValuePoint(data[0]), Point.fromDateValuePoint(data[end]));
-        log.debug("Calculated distance from: (" + i + "/" + data[i].value + ") = " + d);
+        log.debug("Calculated distance from: (" + data[i].date + "/" + data[i].value + ") = " + d);
         if ( d > dmax ) {
             index = i;
             dmax = d;
         }
     }
-    log.debug("point with max distance is: (" + index + "/" + data[index].value + ") = " + dmax);
+    log.debug("point with max distance is: (" + data[index].date + "/" + data[index].value + ") = " + dmax);
 
     if ( dmax > epsilon ) {
         log.debug("dmax > epsilon");
         // Recursive call
         const recResults1: DateValuePoint[] = this.compressWithDate(data.slice(0, index + 1), epsilon);
         const recResults2: DateValuePoint[] = this.compressWithDate(data.slice(index, data.length), epsilon);
-        log.debug("recResults1: " + recResults1);
-        log.debug("recResults2: " + recResults2);
+        log.debug("recResults1: " + JSON.stringify(recResults1));
+        log.debug("recResults2: " + JSON.stringify(recResults2));
 
         // Build the result list
         output = recResults1.slice(0, recResults1.length - 1);
@@ -80,7 +80,7 @@ public compressWithDate(data: DateValuePoint[], epsilon: number): DateValuePoint
         output = [data[0], data[end]];
     }
     // Return the result
-    log.debug("returned output: " + output);
+    log.debug("returned output: " + JSON.stringify(output));
     return output;
 
 }
