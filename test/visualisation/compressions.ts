@@ -22,7 +22,7 @@ log.info("loaded raw data");
 logStatistics();
 
 strategy = new DeadBandCompressionStrategy();
-const opt: DeadBandOptions = {deadBand: 2, sendPrevious: false, interval: 5};
+const opt: DeadBandOptions = {deadBand: 3, sendPrevious: false, interval: 5};
 log.info("Starting Deadband Compression");
 compressed = strategy.compressWithDate(data, opt);
 logStatistics();
@@ -30,7 +30,7 @@ loader.write("test/visualisation/deadband.json", compressed);
 
 //log.level = "debug";
 strategy = new SwingingDoorStrategy();
-const optS: SwingingDoorOptions = {maxDeviation: 3, interval: 5};
+const optS: SwingingDoorOptions = {maxDeviation: 4, interval: 5};
 log.info("Starting swinging door compression");
 compressed = strategy.compressWithDate(data, optS);
 logStatistics();
@@ -48,7 +48,7 @@ loader.write("test/visualisation/linear.json", compressed);
 strategy = new DeltaSamplingStrategy();
 //const optL: DeltaSa = {evenArray: false};
 log.info("Starting delta compression");
-compressed = strategy.compressWithDate(data, 2);
+compressed = strategy.compressWithDate(data, 0.1);
 logStatistics();
 loader.write("test/visualisation/delta.json", compressed);
 
@@ -56,7 +56,7 @@ loader.write("test/visualisation/delta.json", compressed);
 strategy = new RamerDouglasPeuckerStrategy();
 //const optL: DeltaSa = {evenArray: false};
 log.info("Starting rdp compression");
-compressed = strategy.compressWithDate(data, 2);
+compressed = strategy.compressWithDate(data, 3);
 logStatistics();
 loader.write("test/visualisation/rdp.json", compressed);
 
