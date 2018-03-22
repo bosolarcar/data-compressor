@@ -3,6 +3,7 @@ import { Point } from "../model/Point";
 import { log } from "../util/Logger";
 import { DateValuePoint } from "../model/DateValuePoint";
 import { ICompressionStrategy } from "./ICompressionStrategy";
+import { Observable } from "rxjs/Observable";
 
 export class RamerDouglasPeuckerStrategy implements ICompressionStrategy {
 
@@ -76,6 +77,13 @@ public compressWithDate(data: DateValuePoint[]): DateValuePoint[] {
     log.debug("returned output: " + JSON.stringify(output));
     return output;
 
+}
+
+public compressStreamWithDate(raw: Observable<DateValuePoint>): Observable<DateValuePoint> {
+    throw new Error("Streams are not supported by RDP.");
+}
+public compressStream(raw: Observable<number>): Observable<number> {
+    throw new Error("Streams are not supported by RDP.");
 }
 
 private perpendicularDistance(pt: Point, lineStart: Point, lineEnd: Point) {

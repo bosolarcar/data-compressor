@@ -1,7 +1,7 @@
 import * as Rx from "rxjs/Rx";
-import {log} from "../util/Logger";
-import { ArrayUtil } from "../util/ArrayUtil";
 import { DateValuePoint } from "../model/DateValuePoint";
+import { ArrayUtil } from "../util/ArrayUtil";
+import {log} from "../util/Logger";
 
 export class LevelCompression {
 

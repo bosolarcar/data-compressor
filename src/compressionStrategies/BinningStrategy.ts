@@ -3,6 +3,7 @@ import { DateValuePoint } from "../model/DateValuePoint";
 import {ArrayUtil} from "../util/ArrayUtil";
 import {log} from "../util/Logger";
 import { ICompressionStrategy } from "./ICompressionStrategy";
+import { Observable } from "rxjs/Observable";
 
 export class BinningStrategy implements ICompressionStrategy {
 
@@ -14,7 +15,6 @@ export class BinningStrategy implements ICompressionStrategy {
         log.debug("requested points: " + this.points);
 
         const output: number[] = [];
-
 
         let segmentWidth: number = data.length / this.points;
         segmentWidth = Math.trunc(segmentWidth);
@@ -56,5 +56,12 @@ export class BinningStrategy implements ICompressionStrategy {
             output.push(ArrayUtil.averageDateValuePoint(bin));
         });
         return output;
+    }
+
+    public compressStreamWithDate(raw: Observable<DateValuePoint>): Observable<DateValuePoint> {
+        throw new Error("Method not implemented.");
+    }
+    public compressStream(raw: Observable<number>): Observable<number> {
+        throw new Error("Method not implemented.");
     }
 }

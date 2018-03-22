@@ -1,7 +1,7 @@
 import * as Rx from "rxjs/Rx";
+import { DateValuePoint } from "../model/DateValuePoint";
 import {log} from "../util/Logger";
 import {Math} from "../util/Math";
-import { DateValuePoint } from "../model/DateValuePoint";
 import { ICompressionStrategy } from "./ICompressionStrategy";
 
 export class DeltaSamplingStrategy implements ICompressionStrategy {
@@ -46,14 +46,14 @@ public compressWithDate(data: DateValuePoint[]): DateValuePoint[] {
     return output;
 }
 
-    public compressObservable(data: Rx.Observable<number>): Rx.Observable<number> {
+    public compressStream(data: Rx.Observable<number>): Rx.Observable<number> {
         log.debug("starting delta sampling");
         log.debug("minimum delta: " + this.delta);
 
         return data.distinctUntilChanged((x: number, y: number) => Math.absoluteDelta(x, y) < this.delta);
     }
 
-    public compressObservableWithDate(data: Rx.Observable<DateValuePoint>): Rx.Observable<DateValuePoint> {
+    public compressStreamWithDate(data: Rx.Observable<DateValuePoint>): Rx.Observable<DateValuePoint> {
         log.debug("starting delta sampling");
         log.debug("minimum delta: " + this.delta);
 

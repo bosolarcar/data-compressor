@@ -1,21 +1,23 @@
-import * as Rx from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
 import { DateValuePoint } from "../model/DateValuePoint";
 import { ArrayUtil } from "../util/ArrayUtil";
 import { ICompressionStrategy } from "./ICompressionStrategy";
 
 export class LinearSamplingStrategy implements ICompressionStrategy {
 
-    constructor(private points: number) {}
+    constructor(private points: number, private samplingRate: number) {}
 
     public compressGeneric(data: any[]): any[] {
         const result: any = [];
-        let samplingRate: number = data.length / this.points;
-        samplingRate = Math.round(samplingRate);
+        if (this.points !== 0) {
+            this.samplingRate = data.length / this.points;
+            this.samplingRate = Math.round(this.samplingRate);
+        }
 
         let samplePoint: number = 0;
         while (samplePoint < data.length && result.length < this.points) {
             result.push(data[samplePoint]);
-            samplePoint += samplingRate;
+            samplePoint += this.samplingRate;
         }
 
         return result;
@@ -29,7 +31,14 @@ export class LinearSamplingStrategy implements ICompressionStrategy {
         return this.compressGeneric(raw);
     }
 
-    public compressObservable(data: Rx.Observable<any>, samplingRate: number): Rx.Observable<any> {
-            return data.bufferCount(samplingRate).map((arr) => arr[arr.length - 1]);
+    public compressObservable(data: Observable<any>): Observable<any> {
+            return data.bufferCount(this.samplingRate).map((arr) => arr[arr.length - 1]);
+}
+
+public compressStreamWithDate(raw: Observable<DateValuePoint>): Observable<DateValuePoint> {
+    return this.compressObservable(raw);
+}
+public compressStream(raw: Observable<number>): Observable<number> {
+    return this.compressObservable(raw);
 }
 }

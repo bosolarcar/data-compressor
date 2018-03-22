@@ -1,3 +1,4 @@
+import { Observable } from "rxjs/Observable";
 import { DateValuePoint } from "../model/DateValuePoint";
 import {log} from "../util/Logger";
 import {Math} from "../util/Math";
@@ -43,5 +44,12 @@ export class DeadBandCompressionStrategy implements ICompressionStrategy {
             }
     }
         return output;
+    }
+
+    public compressStreamWithDate(raw: Observable<DateValuePoint>): Observable<DateValuePoint> {
+        throw new Error("Method not implemented.");
+    }
+    public compressStream(raw: Observable<number>): Observable<number> {
+        throw new Error("Method not implemented.");
     }
 }

@@ -29,7 +29,7 @@ compressed = strategy.compressWithDate(data);
 logStatistics();
 loader.write("test/visualisation/door.json", compressed);
 
-strategy = new LinearSamplingStrategy(1000);
+strategy = new LinearSamplingStrategy(1000, 0);
 log.info("Starting linear sampling compression");
 logStatistics();
 loader.write("test/visualisation/linear.json", compressed);

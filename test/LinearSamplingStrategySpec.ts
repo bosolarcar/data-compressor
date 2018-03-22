@@ -5,7 +5,7 @@ describe("Linearsampling", () => {
            it("sampling values", () => {
 
                // Arrange
-               const strategy = new LinearSamplingStrategy(3);
+               const strategy = new LinearSamplingStrategy(3, 0);
                const numbers: number[] = [1, 3, 9, 5, 7];
 
                // Act
@@ -19,7 +19,7 @@ describe("Linearsampling", () => {
             const loader: TestDataLoader = new TestDataLoader();
 
             // Arrange
-            const strategy = new LinearSamplingStrategy(4);
+            const strategy = new LinearSamplingStrategy(4, 0);
             const data = loader.load("temperatur.json");
 
             // Act

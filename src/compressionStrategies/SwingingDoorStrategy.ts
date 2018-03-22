@@ -3,6 +3,7 @@ import { LinearFunction } from "../model/LinearFunction";
 import { Point } from "../model/Point";
 import {log} from "../util/Logger";
 import { ICompressionStrategy } from "./ICompressionStrategy";
+import { Observable } from "rxjs/Observable";
 
 export class SwingingDoorStrategy implements ICompressionStrategy {
 
@@ -104,6 +105,13 @@ export class SwingingDoorStrategy implements ICompressionStrategy {
            }
 
         return output;
+    }
+
+    public compressStreamWithDate(raw: Observable<DateValuePoint>): Observable<DateValuePoint> {
+        throw new Error("Method not implemented.");
+    }
+    public compressStream(raw: Observable<number>): Observable<number> {
+        throw new Error("Method not implemented.");
     }
 
     private calculateMinDoor(snapshot: Point, reference: Point, maxDeviation: number, previous: number): LinearFunction {
