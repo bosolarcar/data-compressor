@@ -1,30 +1,28 @@
 import { AggregateDataPoint } from "../model/AggregateDataPoint";
+import { DateValuePoint } from "../model/DateValuePoint";
 import {ArrayUtil} from "../util/ArrayUtil";
 import {log} from "../util/Logger";
-import { BinningOptions } from "./options/BinningOptions";
-import { DateValuePoint } from "../model/DateValuePoint";
+import { ICompressionStrategy } from "./ICompressionStrategy";
 
-export class BinningStrategy {
+export class BinningStrategy implements ICompressionStrategy {
 
-    public compress(data: number[], points: number, opt: BinningOptions): number[] {
+    constructor(private points: number) {}
+
+    public compress(data: number[]): number[] {
         log.debug("starting data binning");
         log.debug("Data length: " + data.length);
-        log.debug("requested points: " + points);
+        log.debug("requested points: " + this.points);
 
         const output: number[] = [];
 
-        if (opt.evenArray) {
-            log.debug("Evening bins of input data");
-            ArrayUtil.evenChunks(data, points);
-        }
 
-        let segmentWidth: number = data.length / points;
+        let segmentWidth: number = data.length / this.points;
         segmentWidth = Math.trunc(segmentWidth);
 
         log.debug("Splitting data into bins");
         const bins: any[] = ArrayUtil.chunkArray(data, segmentWidth);
 
-        while (bins.length > points) {
+        while (bins.length > this.points) {
             bins.pop();
         }
 
@@ -36,27 +34,20 @@ export class BinningStrategy {
         return output;
     }
 
-    //TODO add option to define bin size
-    //TODO add binning by timeintervall
-     public compressWithDate(data: DateValuePoint[], points: number, opt: BinningOptions): DateValuePoint[] {
+     public compressWithDate(data: DateValuePoint[]): DateValuePoint[] {
         log.debug("starting data binning");
         log.debug("Data length: " + data.length);
-        log.debug("requested points: " + points);
+        log.debug("requested points: " + this.points);
 
         const output: DateValuePoint[] = [];
 
-        if (opt.evenArray) {
-            log.debug("Evening bins of input data");
-            ArrayUtil.evenChunks(data, points);
-        }
-
-        let segmentWidth: number = data.length / points;
+        let segmentWidth: number = data.length / this.points;
         segmentWidth = Math.trunc(segmentWidth);
 
         log.debug("Splitting data into bins");
         const bins: any[] = ArrayUtil.chunkArray(data, segmentWidth);
 
-        while (bins.length > points) {
+        while (bins.length > this.points) {
             bins.pop();
         }
 

@@ -1,4 +1,3 @@
-import { BinningOptions } from "../compressionStrategies/options/BinningOptions";
 import { DateValuePoint } from "../model/DateValuePoint";
 
 export class ArrayUtil {
@@ -23,24 +22,16 @@ export class ArrayUtil {
         return result;
     }
 
-    public static arrayStats(array: number[], opt: BinningOptions): {min: number, max: number, avg: number} {
+    public static arrayStats(array: number[]): {min: number, max: number, avg: number} {
         let min: number = array[0];
         let max: number = array[0];
         let avg: number;
 
         let sum = 0;
         array.forEach((element) => {
-            if (opt.avg) {
                 sum += element;
-            }
-
-            if (opt.min && element < min) {
                 min = element;
-            }
-
-            if (opt.max && element > max) {
                 max = element;
-            }
         });
         avg = sum / array.length;
         return {min, max, avg};

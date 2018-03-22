@@ -2,13 +2,15 @@ import { LinearFunction } from "../model/LinearFunction";
 import { Point } from "../model/Point";
 import { log } from "../util/Logger";
 import { DateValuePoint } from "../model/DateValuePoint";
+import { ICompressionStrategy } from "./ICompressionStrategy";
 
-export class RamerDouglasPeuckerStrategy {
+export class RamerDouglasPeuckerStrategy implements ICompressionStrategy {
 
-public compress(data: number[], epsilon: number): number[] {
+    constructor(private epsilon: number) {}
+
+public compress(data: number[]): number[] {
     let output: number[] = [];
 
-    // Find the point with the maximum distance
     let dmax: number = 0;
     let index: number = 0;
     const end: number = data.length - 1;
@@ -23,32 +25,27 @@ public compress(data: number[], epsilon: number): number[] {
     }
     log.debug("point with max distance is: (" + index + "/" + data[index] + ") = " + dmax);
 
-    if ( dmax > epsilon ) {
+    if ( dmax > this.epsilon ) {
         log.debug("dmax > epsilon");
-        // Recursive call
-        const recResults1: number[] = this.compress(data.slice(0, index + 1), epsilon);
-        const recResults2: number[] = this.compress(data.slice(index, data.length), epsilon);
+        const recResults1: number[] = this.compress(data.slice(0, index + 1));
+        const recResults2: number[] = this.compress(data.slice(index, data.length));
         log.debug("recResults1: " + recResults1);
         log.debug("recResults2: " + recResults2);
 
-        // Build the result list
         output = recResults1.slice(0, recResults1.length - 1);
         output = output.concat(recResults2);
     } else {
-        // return start and end point
         log.debug("dmax < epsilon");
         output = [data[0], data[end]];
     }
-    // Return the result
     log.debug("returned output: " + output);
     return output;
 
 }
 
-public compressWithDate(data: DateValuePoint[], epsilon: number): DateValuePoint[] {
+public compressWithDate(data: DateValuePoint[]): DateValuePoint[] {
     let output: DateValuePoint[] = [];
 
-    // Find the point with the maximum distance
     let dmax: number = 0;
     let index: number = 0;
     const end: number = data.length - 1;
@@ -63,35 +60,23 @@ public compressWithDate(data: DateValuePoint[], epsilon: number): DateValuePoint
     }
     log.debug("point with max distance is: (" + data[index].date + "/" + data[index].value + ") = " + dmax);
 
-    if ( dmax > epsilon ) {
+    if ( dmax > this.epsilon ) {
         log.debug("dmax > epsilon");
-        // Recursive call
-        const recResults1: DateValuePoint[] = this.compressWithDate(data.slice(0, index + 1), epsilon);
-        const recResults2: DateValuePoint[] = this.compressWithDate(data.slice(index, data.length), epsilon);
+        const recResults1: DateValuePoint[] = this.compressWithDate(data.slice(0, index + 1));
+        const recResults2: DateValuePoint[] = this.compressWithDate(data.slice(index, data.length));
         log.debug("recResults1: " + JSON.stringify(recResults1));
         log.debug("recResults2: " + JSON.stringify(recResults2));
 
-        // Build the result list
         output = recResults1.slice(0, recResults1.length - 1);
         output = output.concat(recResults2);
     } else {
-        // return start and end point
         log.debug("dmax < epsilon");
         output = [data[0], data[end]];
     }
-    // Return the result
     log.debug("returned output: " + JSON.stringify(output));
     return output;
 
 }
-
-/* private perpendicularDistance(point: Point, line: LinearFunction): number {
-    const a = line.slope;
-    const b = -1;
-    const c = line.yIntercept;
-
-    return Math.abs(a * point.x + b * point.y + c) / Math.hypot(a, b);
-} */
 
 private perpendicularDistance(pt: Point, lineStart: Point, lineEnd: Point) {
     let dx: number = lineEnd.x - lineStart.x;

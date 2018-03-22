@@ -2,13 +2,16 @@ import * as Rx from "rxjs/Rx";
 import {log} from "../util/Logger";
 import {Math} from "../util/Math";
 import { DateValuePoint } from "../model/DateValuePoint";
+import { ICompressionStrategy } from "./ICompressionStrategy";
 
-export class DeltaSamplingStrategy {
+export class DeltaSamplingStrategy implements ICompressionStrategy {
 
-    public compress(data: number[], delta: number): number[] {
+    constructor(private delta: number) {}
+
+    public compress(data: number[]): number[] {
         log.debug("starting delta sampling");
         log.debug("Data length: " + data.length);
-        log.debug("minimum delta: " + delta);
+        log.debug("minimum delta: " + this.delta);
 
         const output: number[] = [data[0]];
 
@@ -16,7 +19,7 @@ export class DeltaSamplingStrategy {
         for (num = 1; num < data.length; num++) {
             const previous: number = data[num - 1];
             const element: number = data[num];
-            if (Math.absoluteDelta(element, previous) > delta){
+            if (Math.absoluteDelta(element, previous) > this.delta){
                 output.push(element);
             }
 
@@ -24,10 +27,10 @@ export class DeltaSamplingStrategy {
         return output;
 }
 
-public compressWithDate(data: DateValuePoint[], delta: number): DateValuePoint[] {
+public compressWithDate(data: DateValuePoint[]): DateValuePoint[] {
     log.debug("starting delta sampling");
     log.debug("Data length: " + data.length);
-    log.debug("minimum delta: " + delta);
+    log.debug("minimum delta: " + this.delta);
 
     const output: DateValuePoint[] = [data[0]];
 
@@ -35,7 +38,7 @@ public compressWithDate(data: DateValuePoint[], delta: number): DateValuePoint[]
     for (num = 1; num < data.length; num++) {
         const previous: DateValuePoint = data[num - 1];
         const element: DateValuePoint = data[num];
-        if (Math.absoluteDelta(element.value, previous.value) > delta) {
+        if (Math.absoluteDelta(element.value, previous.value) > this.delta) {
             output.push(element);
         }
 
@@ -43,18 +46,18 @@ public compressWithDate(data: DateValuePoint[], delta: number): DateValuePoint[]
     return output;
 }
 
-    public compressObservable(data: Rx.Observable<number>, delta: number): Rx.Observable<number> {
+    public compressObservable(data: Rx.Observable<number>): Rx.Observable<number> {
         log.debug("starting delta sampling");
-        log.debug("minimum delta: " + delta);
+        log.debug("minimum delta: " + this.delta);
 
-        return data.distinctUntilChanged((x: number, y: number) => Math.absoluteDelta(x, y) < delta);
+        return data.distinctUntilChanged((x: number, y: number) => Math.absoluteDelta(x, y) < this.delta);
     }
 
-    public compressObservableWithDate(data: Rx.Observable<DateValuePoint>, delta: number): Rx.Observable<DateValuePoint> {
+    public compressObservableWithDate(data: Rx.Observable<DateValuePoint>): Rx.Observable<DateValuePoint> {
         log.debug("starting delta sampling");
-        log.debug("minimum delta: " + delta);
+        log.debug("minimum delta: " + this.delta);
 
-        return data.distinctUntilChanged((x: DateValuePoint, y: DateValuePoint) => Math.absoluteDelta(x.value, y.value) < delta);
+        return data.distinctUntilChanged((x: DateValuePoint, y: DateValuePoint) => Math.absoluteDelta(x.value, y.value) < this.delta);
     }
 
 }

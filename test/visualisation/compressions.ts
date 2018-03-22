@@ -4,10 +4,6 @@ import { BinningStrategy } from "../../src/compressionStrategies/BinningStrategy
 import { DeadBandCompressionStrategy } from "../../src/compressionStrategies/DeadBandCompressionStrategy";
 import { DeltaSamplingStrategy } from "../../src/compressionStrategies/DeltaSamplingStrategy";
 import { LinearSamplingStrategy } from "../../src/compressionStrategies/LinearSamplingStrategy";
-import { BinningOptions } from "../../src/compressionStrategies/options/BinningOptions";
-import { DeadBandOptions } from "../../src/compressionStrategies/options/DeadBandOptions";
-import { LinearSamplingOptions } from "../../src/compressionStrategies/options/LinearSamplingOptions";
-import { SwingingDoorOptions } from "../../src/compressionStrategies/options/SwingingDoorOptions";
 import { RamerDouglasPeuckerStrategy } from "../../src/compressionStrategies/RamerDouglasPeuckerStrategy";
 import { SwingingDoorStrategy } from "../../src/compressionStrategies/SwingingDoorStrategy";
 import { DateValuePoint } from "../../src/model/DateValuePoint";
@@ -21,49 +17,38 @@ let strategy;
 log.info("loaded raw data");
 logStatistics();
 
-strategy = new DeadBandCompressionStrategy();
-const opt: DeadBandOptions = {deadBand: 3, sendPrevious: false, interval: 5};
+strategy = new DeadBandCompressionStrategy(3, false);
 log.info("Starting Deadband Compression");
-compressed = strategy.compressWithDate(data, opt);
+compressed = strategy.compressWithDate(data);
 logStatistics();
 loader.write("test/visualisation/deadband.json", compressed);
 
-//log.level = "debug";
-strategy = new SwingingDoorStrategy();
-const optS: SwingingDoorOptions = {maxDeviation: 4, interval: 5};
+strategy = new SwingingDoorStrategy(4);
 log.info("Starting swinging door compression");
-compressed = strategy.compressWithDate(data, optS);
+compressed = strategy.compressWithDate(data);
 logStatistics();
 loader.write("test/visualisation/door.json", compressed);
-log.level = "info";
 
-strategy = new LinearSamplingStrategy();
-const optL: LinearSamplingOptions = {evenArray: false};
+strategy = new LinearSamplingStrategy(1000);
 log.info("Starting linear sampling compression");
-compressed = strategy.compress(data, 1000, optL);
 logStatistics();
 loader.write("test/visualisation/linear.json", compressed);
 
-
-strategy = new DeltaSamplingStrategy();
-//const optL: DeltaSa = {evenArray: false};
+strategy = new DeltaSamplingStrategy(0.1);
 log.info("Starting delta compression");
-compressed = strategy.compressWithDate(data, 0.1);
+compressed = strategy.compressWithDate(data);
 logStatistics();
 loader.write("test/visualisation/delta.json", compressed);
 
-
-strategy = new RamerDouglasPeuckerStrategy();
-//const optL: DeltaSa = {evenArray: false};
+strategy = new RamerDouglasPeuckerStrategy(3);
 log.info("Starting rdp compression");
-compressed = strategy.compressWithDate(data, 3);
+compressed = strategy.compressWithDate(data);
 logStatistics();
 loader.write("test/visualisation/rdp.json", compressed);
 
-strategy = new BinningStrategy();
-const optB: BinningOptions = {min: true, max: true, avg: true, evenArray: false};
+strategy = new BinningStrategy(1000);
 log.info("Starting binning compression");
-compressed = strategy.compressWithDate(data, 1000, optB);
+compressed = strategy.compressWithDate(data);
 logStatistics();
 loader.write("test/visualisation/binning.json", compressed);
 

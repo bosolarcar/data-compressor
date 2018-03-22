@@ -6,11 +6,11 @@ describe("RDP", () => {
            it("sample numbers with epsilon 1", () => {
 
                // Arrange
-               const strategy = new RamerDouglasPeuckerStrategy();
+               const strategy = new RamerDouglasPeuckerStrategy(1);
                const numbers: number[] = [0, 0.1, -0.1, 5, 6, 7, 8.1, 9, 9, 9];
 
                // Act
-               const result = strategy.compress(numbers, 1);
+               const result = strategy.compress(numbers);
 
                // Assert
                expect(result).toEqual([0, -0.1, 5, 9, 9]);
@@ -19,11 +19,11 @@ describe("RDP", () => {
            it("sample numbers with epsilon 2", () => {
 
             // Arrange
-            const strategy = new RamerDouglasPeuckerStrategy();
+            const strategy = new RamerDouglasPeuckerStrategy(2);
             const numbers: number[] = [3, 5, 6, 4, 7, 9, 10, 8, 2, 3];
 
             // Act
-            const result = strategy.compress(numbers, 2);
+            const result = strategy.compress(numbers);
 
             // Assert
             expect(result).toEqual([3, 10, 3]);
@@ -32,12 +32,12 @@ describe("RDP", () => {
            it("sample datavaluepoints with epsilon 3", () => {
 
             // Arrange
-            const strategy = new RamerDouglasPeuckerStrategy();
+            const strategy = new RamerDouglasPeuckerStrategy(2);
             const loader: TestDataLoader = new TestDataLoader();
             const data = loader.load("temperatur.json");
 
             // Act
-            const actual = strategy.compressWithDate(data, 2);
+            const actual = strategy.compressWithDate(data);
 
             // Assert
             const expected = loader.load("ramerDouglasPeucker.json");

@@ -1,27 +1,32 @@
 import * as Rx from "rxjs/Rx";
+import { DateValuePoint } from "../model/DateValuePoint";
 import { ArrayUtil } from "../util/ArrayUtil";
-import { LinearSamplingOptions } from "./options/LinearSamplingOptions";
+import { ICompressionStrategy } from "./ICompressionStrategy";
 
-export class LinearSamplingStrategy {
+export class LinearSamplingStrategy implements ICompressionStrategy {
 
-    //TODO add option to define samplingrate
-    public compress(data: any[], points: number, opt: LinearSamplingOptions): any[] {
-        const result: number[] = [];
+    constructor(private points: number) {}
 
-        if (opt.evenArray) {
-            ArrayUtil.evenChunks(data, points);
-        }
-
-        let samplingRate: number = data.length / points;
+    public compressGeneric(data: any[]): any[] {
+        const result: any = [];
+        let samplingRate: number = data.length / this.points;
         samplingRate = Math.round(samplingRate);
 
         let samplePoint: number = 0;
-        while (samplePoint < data.length && result.length < points) {
+        while (samplePoint < data.length && result.length < this.points) {
             result.push(data[samplePoint]);
             samplePoint += samplingRate;
         }
 
         return result;
+    }
+
+    public compress(raw: number[]): number[]{
+        return this.compressGeneric(raw);
+    }
+
+    public compressWithDate(raw: DateValuePoint[]): DateValuePoint[] {
+        return this.compressGeneric(raw);
     }
 
     public compressObservable(data: Rx.Observable<any>, samplingRate: number): Rx.Observable<any> {

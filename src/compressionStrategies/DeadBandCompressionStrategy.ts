@@ -1,11 +1,13 @@
 import { DateValuePoint } from "../model/DateValuePoint";
 import {log} from "../util/Logger";
 import {Math} from "../util/Math";
-import { DeadBandOptions } from "./options/DeadBandOptions";
+import { ICompressionStrategy } from "./ICompressionStrategy";
 
-export class DeadBandCompressionStrategy {
+export class DeadBandCompressionStrategy implements ICompressionStrategy {
 
-    public compress(data: number[], opt: DeadBandOptions): number[] {
+    constructor(private deadband: number, private sendPrevious: boolean) {}
+
+    public compress(data: number[]): number[] {
         const output: number[] = [data[0]];
 
         let reference: number = data[0];
@@ -13,8 +15,8 @@ export class DeadBandCompressionStrategy {
         for (num = 1; num < data.length; num++) {
             const previous: number = data[num - 1];
             const element: number = data[num];
-            if (Math.absoluteDelta(element, reference) > opt.deadBand) {
-                if (opt.sendPrevious) {
+            if (Math.absoluteDelta(element, reference) > this.deadband) {
+                if (this.sendPrevious) {
                     output.push(previous);
                 }
                 output.push(element);
@@ -24,7 +26,7 @@ export class DeadBandCompressionStrategy {
         return output;
     }
 
-    public compressWithDate(data: DateValuePoint[], opt: DeadBandOptions): DateValuePoint[] {
+    public compressWithDate(data: DateValuePoint[]): DateValuePoint[] {
         const output: DateValuePoint[] = [data[0]];
 
         let reference: number = data[0].value;
@@ -32,8 +34,8 @@ export class DeadBandCompressionStrategy {
         for (num = 1; num < data.length; num++) {
             const previous: DateValuePoint = data[num - 1];
             const element: DateValuePoint = data[num];
-            if (Math.absoluteDelta(element.value, reference) > opt.deadBand) {
-                if (opt.sendPrevious && output[output.length - 1] !== previous) {
+            if (Math.absoluteDelta(element.value, reference) > this.deadband) {
+                if (this.sendPrevious && output[output.length - 1] !== previous) {
                     output.push(previous);
                 }
                 output.push(element);
