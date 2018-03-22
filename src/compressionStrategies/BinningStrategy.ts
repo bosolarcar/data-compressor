@@ -7,6 +7,9 @@ import { Observable } from "rxjs/Observable";
 
 export class BinningStrategy implements ICompressionStrategy {
 
+/**
+ * @param points  Gibt die gewünschte Anzahl von Punkten nach der Komprimierung an. Dies entspricht genau der Anzahl der Bins. Deren Größe wird anhand der Größe der Eingabedaten dynamisch berechnet.
+ */
     constructor(private points: number) {}
 
     public compress(data: number[]): number[] {

@@ -7,6 +7,9 @@ import { Observable } from "rxjs/Observable";
 
 export class RamerDouglasPeuckerStrategy implements ICompressionStrategy {
 
+/**
+ * @param epsilon  Gibt die Abweichung an, die ein Punkt maximal von einer durch die Daten gelegten Kurve haben darf. Alle Punkte die weiter abweichen werden gespeichert.
+ */
     constructor(private epsilon: number) {}
 
 public compress(data: number[]): number[] {

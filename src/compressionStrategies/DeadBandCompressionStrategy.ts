@@ -6,6 +6,11 @@ import { ICompressionStrategy } from "./ICompressionStrategy";
 
 export class DeadBandCompressionStrategy implements ICompressionStrategy {
 
+/**
+ * @param deadband  Gibt die Größe des Deadbands an. Je größer dieser Wert gewählt wird, desto mehr Daten fallen bei der Komprimierung raus.
+ * @param sendPrevious  Wenn dieser Wert gesetzt ist, wird bei jedem Wert, der außerhalb des Deadbands liegt zusätzlich noch der Vorgänger gespeichert.
+ */
+
     constructor(private deadband: number, private sendPrevious: boolean) {}
 
     public compress(data: number[]): number[] {

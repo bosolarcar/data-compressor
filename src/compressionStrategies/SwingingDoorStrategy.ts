@@ -7,6 +7,9 @@ import { Observable } from "rxjs/Observable";
 
 export class SwingingDoorStrategy implements ICompressionStrategy {
 
+/**
+ * @param maxDeviation  Gibt die gewünschte maximale Abweichung an. Diese wird genutzt um die Türen zu berechnen. Je größer sie gewählt wird, desto mehr Daten werden verworfen.
+ */
     constructor(private maxDeviation: number) {}
 
     public compress(data: number[]): number[] {

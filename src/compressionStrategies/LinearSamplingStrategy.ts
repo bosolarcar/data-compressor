@@ -5,6 +5,11 @@ import { ICompressionStrategy } from "./ICompressionStrategy";
 
 export class LinearSamplingStrategy implements ICompressionStrategy {
 
+/**
+ * @param points  Gibt die gewünschte Anzahl von Punkten nach der Komprimierung an. Die Samplingrate wird anhand der Eingabe automatisch bestimmt, so dass die gewünschte Anzahl an Punkten übrigbleibt.
+ * @param samplingRate  Hier kann die Samplingrate manuell festgelegt werden. Dieser Wert hat nur Wirkung wenn resultPoints 0 ist.
+ */
+
     constructor(private points: number, private samplingRate: number) {}
 
     public compressGeneric(data: any[]): any[] {

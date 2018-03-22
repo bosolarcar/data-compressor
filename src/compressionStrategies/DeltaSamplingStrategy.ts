@@ -6,6 +6,10 @@ import { ICompressionStrategy } from "./ICompressionStrategy";
 
 export class DeltaSamplingStrategy implements ICompressionStrategy {
 
+/**
+ * @param delta Gibt die Größe des Deltas an. Alle Punkte, die um mehr als diesen Wert von ihren Vorgängern abweichen werden übernommen.
+ */
+
     constructor(private delta: number) {}
 
     public compress(data: number[]): number[] {
