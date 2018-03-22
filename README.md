@@ -26,19 +26,19 @@ Dabei gibt es zwei Möglichkeiten:
 Die Klasse DataCompressor ist die zentrale Schnittstelle und Einstiegspunkt.
 Zunächst muss sie instanziiert werden:
 
-´´´ javascript
+``` javascript
 const dc: DataCompressor = DataCompressor.Instance();
-´´´
+```
 
 Anschließend kann ein Algorithmus ausgewählt werden:
 
-´´´ javascript
+``` javascript
 dc.setCompressionStrategy(new DeadBandCompressionStrategy(2));
-´´´
+```
 
 Nun können Daten verarbeitet werden:
 
-´´´ javascript
+``` javascript
 const data: number[] = [1, 2, 3, 4, 5];
 dc.compress(data);
-´´´
+```
